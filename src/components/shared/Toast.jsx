@@ -1,23 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 
 export default function Toast({ mensaje, onOcultar }) {
-  const [visible, setVisible] = useState(false);
+  const timerRef = useRef(null);
 
   useEffect(() => {
     if (!mensaje) return;
-    const raf = requestAnimationFrame(() => setVisible(true));
-    const hide = setTimeout(() => {
-      setVisible(false);
-      setTimeout(onOcultar, 300);
-    }, 2000);
-    return () => { cancelAnimationFrame(raf); clearTimeout(hide); };
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      onOcultar();
+    }, 2200);
+    return () => clearTimeout(timerRef.current);
   }, [mensaje]);
 
   if (!mensaje) return null;
 
-  return (
-    <div className={`toast${visible ? " toast--visible" : ""}`}>
-      {mensaje}
-    </div>
+  return createPortal(
+    <div className="toast toast--visible">{mensaje}</div>,
+    document.body
   );
 }

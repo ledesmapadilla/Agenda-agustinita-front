@@ -86,8 +86,7 @@ export default function NuevaTarea() {
 
         </form>
       </div>
+      <Toast mensaje={toast} onOcultar={() => setToast(null)} />
     </div>
-
-    <Toast mensaje={toast} onOcultar={() => setToast(null)} />
   );
 }
