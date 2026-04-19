@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import TareaCard from "../shared/TareaCard";
-import { getEventos, deleteEvento } from "../../helpers/eventosApi";
+import ModalTarea from "../shared/ModalTarea";
+import { getEventos, updateEvento, deleteEvento } from "../../helpers/eventosApi";
 
 const MESES_MAP = {
   enero: 0, febrero: 1, marzo: 2, abril: 3, mayo: 4, junio: 5,
@@ -13,19 +14,21 @@ export default function DiaTareas() {
   const nombre = mes.charAt(0).toUpperCase() + mes.slice(1);
   const [tareas, setTareas] = useState([]);
   const [cargando, setCargando] = useState(true);
+  const [tareaEditar, setTareaEditar] = useState(null);
 
   useEffect(() => {
     getEventos(`${mes}-${anio}`)
       .then((todas) => {
         const diaNum = Number(dia);
-        const del_dia = todas.filter((t) => {
-          const d = new Date(t.fecha);
-          return d.getUTCDate() === diaNum;
-        });
-        setTareas(del_dia);
+        setTareas(todas.filter((t) => new Date(t.fecha).getUTCDate() === diaNum));
       })
       .finally(() => setCargando(false));
   }, [mes, anio, dia]);
+
+  const handleGuardar = async (data) => {
+    const actualizada = await updateEvento(data._id, data);
+    setTareas((prev) => prev.map((t) => (t._id === actualizada._id ? actualizada : t)));
+  };
 
   const handleBorrar = async (id) => {
     await deleteEvento(id);
@@ -55,7 +58,7 @@ export default function DiaTareas() {
                 <TareaCard
                   key={t._id}
                   tarea={t}
-                  onClick={() => handleBorrar(t._id)}
+                  onClick={(t) => setTareaEditar(t)}
                 />
               ))}
             </ul>
@@ -63,6 +66,17 @@ export default function DiaTareas() {
         </div>
 
       </div>
+
+      <ModalTarea
+        show={!!tareaEditar}
+        onClose={() => setTareaEditar(null)}
+        onGuardar={handleGuardar}
+        onBorrar={handleBorrar}
+        onToggleEstado={handleBorrar}
+        seccion={`${mes}-${anio}`}
+        accentClass="btn-accent-lepa"
+        tareaInicial={tareaEditar}
+      />
     </div>
   );
 }
