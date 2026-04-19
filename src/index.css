@@ -23,7 +23,7 @@ main {
 /* ── HOME — GRILLA DE MESES ── */
 .mes-page {
   min-height: 100svh;
-  background-color: #2a2a2a;
+  background-color: #f0f0f0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,14 +32,13 @@ main {
 }
 
 .mes-año {
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(0, 0, 0, 0.75);
   font-size: clamp(4rem, 12vw, 9rem);
   font-weight: 900;
   letter-spacing: 0.06em;
   line-height: 1;
   user-select: none;
   margin: 0;
-  text-shadow: 0 0 60px rgba(255, 255, 255, 0.15);
 }
 
 .mes-grid {
@@ -56,22 +55,20 @@ main {
   align-items: center;
   justify-content: center;
   padding: 10px 12px;
-  background-color: #3a3a3a;
-  border: 1.5px solid #4a4a4a;
+  background-color: #ffffff;
+  border: none;
   border-radius: 14px;
   text-decoration: none;
   min-height: 60px;
   touch-action: manipulation;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45), 0 1px 4px rgba(0, 0, 0, 0.3);
-  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14), 0 1px 4px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.2s, transform 0.15s;
   -webkit-tap-highlight-color: transparent;
 }
 
 .mes-card:hover,
 .mes-card:focus {
-  background-color: #353535;
-  border-color: #555;
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
   outline: none;
 }
@@ -80,19 +77,16 @@ main {
 
 /* Mes actual — destacado */
 .mes-card--actual {
-  background-color: #1e1a2e;
-  border-color: #7c6fff;
-  box-shadow: 0 0 0 1px #7c6fff, 0 6px 24px rgba(124, 111, 255, 0.3), 0 2px 8px rgba(0, 0, 0, 0.5);
+  background-color: #eeebff;
+  box-shadow: 0 4px 16px rgba(124, 111, 255, 0.25), 0 1px 4px rgba(124, 111, 255, 0.15);
 }
 .mes-card--actual:hover,
 .mes-card--actual:focus {
-  background-color: #252038;
-  border-color: #9d8fff;
-  box-shadow: 0 0 0 1px #9d8fff, 0 8px 32px rgba(124, 111, 255, 0.4), 0 2px 8px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 28px rgba(124, 111, 255, 0.35), 0 2px 8px rgba(124, 111, 255, 0.2);
 }
 
 .mes-card__nombre {
-  color: #ddd;
+  color: #333;
   font-size: clamp(0.8rem, 1.8vw, 1rem);
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -102,7 +96,7 @@ main {
 }
 
 .mes-card--actual .mes-card__nombre {
-  color: #fff;
+  color: #5b4fd4;
 }
 
 /* Tablet */
