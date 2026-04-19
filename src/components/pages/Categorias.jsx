@@ -57,12 +57,8 @@ export default function Categorias() {
             <Link key={id} to={`/mes/${mes}/${anio}/${id}`} className="cat-card">
               <Icono />
               <span className="cat-card__label">{label}</span>
-              {urgencias[id] && (
-                <div className="dia-card__puntos">
-                  {urgencias[id].baja  && <span className="dia-card__punto dia-card__punto--baja" />}
-                  {urgencias[id].alta  && <span className="dia-card__punto dia-card__punto--alta" />}
-                </div>
-              )}
+              {urgencias[id]?.baja && <span className="cat-card__punto cat-card__punto--baja" />}
+              {urgencias[id]?.alta && <span className="cat-card__punto cat-card__punto--alta" />}
             </Link>
           ))}
         </div>
