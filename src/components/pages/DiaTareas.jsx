@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import TareaCard from "../shared/TareaCard";
 import ModalTarea from "../shared/ModalTarea";
+import Toast from "../shared/Toast";
 import { getEventos, updateEvento, deleteEvento } from "../../helpers/eventosApi";
 
 export default function DiaTareas() {
@@ -10,6 +11,7 @@ export default function DiaTareas() {
   const [tareas, setTareas] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [tareaEditar, setTareaEditar] = useState(null);
+  const [toast, setToast] = useState(null);
 
   useEffect(() => {
     getEventos(`${mes}-${anio}`)
@@ -23,6 +25,7 @@ export default function DiaTareas() {
   const handleGuardar = async (data) => {
     const actualizada = await updateEvento(data._id, data);
     setTareas((prev) => prev.map((t) => (t._id === actualizada._id ? actualizada : t)));
+    setToast("Tarea guardada");
   };
 
   const handleBorrar = async (id) => {
@@ -33,6 +36,7 @@ export default function DiaTareas() {
   const handleTerminada = async (id) => {
     await deleteEvento(id);
     setTareas((prev) => prev.filter((t) => t._id !== id));
+    setToast("Tarea terminada");
   };
 
   return (
@@ -77,6 +81,8 @@ export default function DiaTareas() {
         accentClass="btn-accent-lepa"
         tareaInicial={tareaEditar}
       />
+
+      <Toast mensaje={toast} onOcultar={() => setToast(null)} />
     </div>
   );
 }

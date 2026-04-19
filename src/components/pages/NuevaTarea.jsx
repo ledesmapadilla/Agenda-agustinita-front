@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { createEvento } from "../../helpers/eventosApi";
+import Toast from "../shared/Toast";
 
 const MESES_MAP = {
   enero: 0, febrero: 1, marzo: 2, abril: 3, mayo: 4, junio: 5,
@@ -18,6 +19,7 @@ export default function NuevaTarea() {
 
   const [guardando, setGuardando] = useState(false);
   const [error, setError] = useState(null);
+  const [toast, setToast] = useState(null);
 
   const {
     register,
@@ -30,7 +32,8 @@ export default function NuevaTarea() {
     setError(null);
     try {
       await createEvento(`${mes}-${anio}`, { ...data, fecha: fechaISO });
-      navigate(`/mes/${mes}/${anio}/${dia}`);
+      setToast("Tarea creada");
+      setTimeout(() => navigate(`/mes/${mes}/${anio}/${dia}`), 1400);
     } catch (err) {
       setError(err?.message || String(err));
     } finally {
@@ -84,5 +87,7 @@ export default function NuevaTarea() {
         </form>
       </div>
     </div>
+
+    <Toast mensaje={toast} onOcultar={() => setToast(null)} />
   );
 }
