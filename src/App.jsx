@@ -8,7 +8,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Inicio />} />
-        <Route path="/mes/:mes/:año" element={<Mes />} />
+        <Route path="/mes/:mes/:anio" element={<Mes />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
     </BrowserRouter>

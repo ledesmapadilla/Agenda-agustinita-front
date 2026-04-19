@@ -6,7 +6,7 @@ import { createEvento } from "../../helpers/eventosApi";
 const hoy = () => new Date().toISOString().split("T")[0];
 
 export default function Mes() {
-  const { mes, año } = useParams();
+  const { mes, anio } = useParams();
   const navigate = useNavigate();
   const nombre = mes.charAt(0).toUpperCase() + mes.slice(1);
   const [guardando, setGuardando] = useState(false);
@@ -23,7 +23,7 @@ export default function Mes() {
     setGuardando(true);
     setError(null);
     try {
-      await createEvento(`${mes}-${año}`, data);
+      await createEvento(`${mes}-${anio}`, data);
       reset({ fecha: hoy(), urgencia: "baja", descripcion: "" });
       navigate("/");
     } catch {
@@ -41,7 +41,7 @@ export default function Mes() {
           <Link to="/" className="floating-card__back">
             <i className="bi bi-arrow-left" />
           </Link>
-          <h1 className="floating-card__title">{nombre} {año}</h1>
+          <h1 className="floating-card__title">{nombre} {anio}</h1>
           <div style={{ width: 44 }} />
         </header>
 
