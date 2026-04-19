@@ -280,9 +280,11 @@ main {
   text-decoration: none;
   line-height: 1;
   transition: color 0.2s, transform 0.2s;
-  width: 32px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
+  touch-action: manipulation;
 }
 .floating-card__back:hover { color: #fff; transform: translateX(-3px); }
 
@@ -306,8 +308,8 @@ main {
 }
 
 .btn-nueva-tarea {
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
   border: 2px solid rgba(255,255,255,0.7);
   border-radius: 8px;
   font-size: 1.4rem;
@@ -320,6 +322,7 @@ main {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  touch-action: manipulation;
   transition: background 0.2s, border-color 0.2s, transform 0.15s;
 }
 .btn-nueva-tarea:hover  { background-color: rgba(255,255,255,0.28); border-color: #fff; transform: translateY(-1px); }
@@ -527,7 +530,7 @@ main {
 @keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp { from { opacity: 0; transform: translateX(-50%) translateY(-12px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
 
-/* Mobile modal */
+/* Mobile modal — bottom sheet */
 @media (max-width: 600px) {
   .modal-sheet {
     top: auto;
@@ -537,13 +540,23 @@ main {
     transform: none;
     width: 100%;
     max-width: 100%;
-    max-height: 92vh;
+    max-height: 92svh;
     border-radius: 20px 20px 0 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
     animation: slideUpMobile 0.28s cubic-bezier(0.4,0,0.2,1);
   }
 
   .field-row { flex-direction: column; gap: 16px; }
   .modal-sheet__body .field-group[style] { max-width: 100% !important; }
+
+  /* Inputs 16px mínimo — evita zoom automático en iOS */
+  .field-input { font-size: 16px; }
+
+  /* Botones de acción: altura mínima para touch cómodo */
+  .btn-estado, .btn-borrar, .btn-cancel, .btn-submit {
+    min-height: 48px;
+    font-size: 1rem;
+  }
 
   @keyframes slideUpMobile {
     from { transform: translateY(100%); }
@@ -551,13 +564,17 @@ main {
   }
 }
 
-/* Mobile page */
+/* Mobile page — edge-to-edge */
 @media (max-width: 600px) {
-  .inner-page { padding: 16px 12px; }
+  .inner-page {
+    padding: 0;
+    align-items: stretch;
+  }
 
   .floating-card {
-    min-height: 88vh;
-    border-radius: 18px;
+    min-height: 100svh;
+    border-radius: 0;
+    box-shadow: none;
   }
 
   .floating-card__header  { padding: 16px 18px; }
@@ -670,5 +687,31 @@ main {
   }
   .home-card:active .home-card__label {
     transform: scale(1.05);
+  }
+}
+
+/* ── TOUCH: eliminar delay de 300ms ── */
+.home-card,
+.tarea-chip,
+.btn-estado,
+.btn-borrar,
+.btn-cancel,
+.btn-submit,
+.modal-sheet__close {
+  touch-action: manipulation;
+}
+
+/* ── MOBILE: ajustes generales ── */
+@media (max-width: 600px) {
+  /* Tarea chip más alto para touch */
+  .tarea-chip {
+    padding: 16px 15px;
+    /* desactivar hover transform en touch */
+    transform: none !important;
+  }
+
+  /* Home: cards con efecto tap visual */
+  .home-card {
+    -webkit-tap-highlight-color: transparent;
   }
 }
