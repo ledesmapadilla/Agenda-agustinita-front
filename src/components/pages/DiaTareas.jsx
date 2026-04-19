@@ -31,6 +31,7 @@ export default function DiaTareas() {
   const handleBorrar = async (id) => {
     await deleteEvento(id);
     setTareas((prev) => prev.filter((t) => t._id !== id));
+    setToast("Tarea borrada");
   };
 
   const handleTerminada = async (id) => {

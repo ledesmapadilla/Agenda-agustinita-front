@@ -6,7 +6,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  background: "#4a90d9",
+  background: "#2c2c2c",
   color: "#fff",
   padding: "18px 36px",
   borderRadius: "24px",
