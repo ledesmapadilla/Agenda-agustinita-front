@@ -30,7 +30,7 @@ export default function NuevaTarea() {
     setError(null);
     try {
       await createEvento(`${mes}-${anio}`, { ...data, fecha: fechaISO });
-      navigate(`/mes/${mes}/${anio}`);
+      navigate(`/mes/${mes}/${anio}/${dia}`);
     } catch (err) {
       setError(err?.message || String(err));
     } finally {
@@ -43,7 +43,7 @@ export default function NuevaTarea() {
       <div className="floating-card">
 
         <header className="floating-card__header floating-card__header--lepa">
-          <Link to={`/mes/${mes}/${anio}`} className="floating-card__back">
+          <Link to={`/mes/${mes}/${anio}/${dia}`} className="floating-card__back">
             <i className="bi bi-arrow-left" />
           </Link>
           <h1 className="floating-card__title">{dia} de {nombre}</h1>
@@ -75,7 +75,7 @@ export default function NuevaTarea() {
           {error && <p className="mes-form__error">{error}</p>}
 
           <div className="mes-form__actions">
-            <Link to={`/mes/${mes}/${anio}`} className="btn-cancel">Cancelar</Link>
+            <Link to={`/mes/${mes}/${anio}/${dia}`} className="btn-cancel">Cancelar</Link>
             <button type="submit" className="btn-submit btn-submit--lepa" disabled={guardando}>
               {guardando ? "Guardando..." : "Guardar tarea"}
             </button>
