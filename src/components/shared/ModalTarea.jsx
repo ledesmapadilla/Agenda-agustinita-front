@@ -6,19 +6,14 @@ const hoy = () => new Date().toISOString().split("T")[0];
 export default function ModalTarea({ show, onClose, onGuardar, onBorrar, onToggleEstado, seccion, accentClass, tareaInicial }) {
   const esEdicion = !!tareaInicial;
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
   useEffect(() => {
     if (show) {
       reset(
         esEdicion
-          ? { fecha: tareaInicial.fecha, urgencia: tareaInicial.urgencia, responsable: tareaInicial.responsable, descripcion: tareaInicial.descripcion }
-          : { fecha: hoy(), urgencia: "baja", responsable: "", descripcion: "" }
+          ? { fecha: tareaInicial.fecha?.slice(0, 10) ?? hoy(), urgencia: tareaInicial.urgencia, descripcion: tareaInicial.descripcion }
+          : { fecha: hoy(), urgencia: "baja", descripcion: "" }
       );
       document.body.style.overflow = "hidden";
     } else {
@@ -48,17 +43,6 @@ export default function ModalTarea({ show, onClose, onGuardar, onBorrar, onToggl
 
         <form className="modal-sheet__body" onSubmit={handleSubmit(onSubmit)} noValidate>
 
-          <div className="field-group" style={{ maxWidth: "50%" }}>
-            <label className="field-label" htmlFor="fecha">Fecha</label>
-            <input
-              id="fecha"
-              type="date"
-              className="field-input field-input--readonly"
-              readOnly
-              {...register("fecha")}
-            />
-          </div>
-
           <div className="field-group">
             <label className="field-label" htmlFor="descripcion">Tarea</label>
             <textarea
@@ -79,30 +63,11 @@ export default function ModalTarea({ show, onClose, onGuardar, onBorrar, onToggl
             </select>
           </div>
 
-          <div className="field-inline">
-            <label className="field-label field-label--inline" htmlFor="responsable">Responsable</label>
-            <select
-              id="responsable"
-              className={`field-input field-input--select field-input--inline ${errors.responsable ? "field-input--error" : ""}`}
-              {...register("responsable", { required: "Requerido" })}
-            >
-              <option value="">Seleccioná...</option>
-              <option value="Nelson">Nelson</option>
-              <option value="Zamorano">Zamorano</option>
-              <option value="Agustin">Agustín</option>
-              <option value="Nacho">Nacho</option>
-              <option value="Mauricio">Mauricio</option>
-              <option value="Juan Jose">Juan Jose</option>
-              <option value="Otro">Otro</option>
-            </select>
-            {errors.responsable && <span className="field-error">{errors.responsable.message}</span>}
-          </div>
-
           <div className="modal-sheet__actions">
             {esEdicion && (
               <>
                 <button type="button" className="btn-estado" onClick={() => { onToggleEstado(tareaInicial._id); onClose(); }}>
-                  {tareaInicial.completado ? "Pendiente" : "Terminada"}
+                  Terminada
                 </button>
                 <button type="button" className="btn-borrar" onClick={() => { onBorrar(tareaInicial._id); onClose(); }}>
                   Borrar
