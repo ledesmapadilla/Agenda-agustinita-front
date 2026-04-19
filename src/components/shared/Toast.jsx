@@ -5,12 +5,12 @@ export default function Toast({ mensaje, onOcultar }) {
 
   useEffect(() => {
     if (!mensaje) return;
-    setVisible(true);
-    const t = setTimeout(() => {
+    const raf = requestAnimationFrame(() => setVisible(true));
+    const hide = setTimeout(() => {
       setVisible(false);
       setTimeout(onOcultar, 300);
     }, 2000);
-    return () => clearTimeout(t);
+    return () => { cancelAnimationFrame(raf); clearTimeout(hide); };
   }, [mensaje]);
 
   if (!mensaje) return null;
