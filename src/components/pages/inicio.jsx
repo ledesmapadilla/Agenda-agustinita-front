@@ -10,7 +10,7 @@ const MESES = [
 const hoy       = new Date();
 const mesActual = hoy.getMonth();
 const añoActual = hoy.getFullYear();
-const AÑOS      = Array.from({ length: 11 }, (_, i) => 2020 + i); // 2020–2030
+const AÑOS      = Array.from({ length: 10 }, (_, i) => 2026 + i); // 2026–2035
 
 export default function Inicio() {
   const [año, setAño]         = useState(2026);
