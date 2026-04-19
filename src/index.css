@@ -20,152 +20,105 @@ main {
   flex-grow: 1;
 }
 
-/* ── HOME ── */
-.home-grid {
-  display: flex;
-  height: 100vh;
-  width: 100%;
-  gap: 28px;
-  padding: 52px;
+/* ── HOME — GRILLA DE MESES ── */
+.mes-page {
+  min-height: 100svh;
   background-color: #0d0d0d;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 28px 32px;
+  gap: 28px;
 }
 
-.home-card {
+.mes-año {
+  color: rgba(255, 255, 255, 0.18);
+  font-size: clamp(4rem, 12vw, 9rem);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  user-select: none;
+  margin: 0;
+}
+
+.mes-grid {
+  width: 100%;
+  max-width: 900px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
   flex: 1;
+}
+
+.mes-card {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  border: none;
-  position: relative;
-  overflow: visible;
-  border-radius: 22px;
+  background-color: #1a1a1a;
+  border: 1.5px solid #2a2a2a;
+  border-radius: 16px;
   text-decoration: none;
-  transition: flex 0.45s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.35s ease;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
-  /* clip content inside but allow shadow outside */
-  isolation: isolate;
+  min-height: 90px;
+  touch-action: manipulation;
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* clip rounded corners without clipping shadow */
-.home-card > * {
-  border-radius: inherit;
-  overflow: hidden;
-}
-
-.home-card:hover,
-.home-card:focus {
-  flex: 1.7;
+.mes-card:hover,
+.mes-card:focus {
+  background-color: #252525;
+  border-color: #444;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.06);
+  transform: translateY(-2px);
   outline: none;
-  transform: scaleY(1.04);
 }
 
-/* glow externo — la "luz detrás" */
-.home-card--lepa {
-  background-color: #1b3a2d;
+.mes-card:active { transform: translateY(0); }
+
+/* Mes actual — destacado */
+.mes-card--actual {
+  background-color: #1e1a2e;
+  border-color: #7c6fff;
+  box-shadow: 0 0 0 1px #7c6fff, 0 0 20px 4px rgba(124, 111, 255, 0.2);
 }
-.home-card--lepa:hover,
-.home-card--lepa:focus {
-  box-shadow:
-    0 0 0 4px rgba(72, 210, 120, 0.15),
-    0 0 60px 18px rgba(72, 210, 120, 0.35),
-    0 16px 48px rgba(0, 0, 0, 0.6);
+.mes-card--actual:hover,
+.mes-card--actual:focus {
+  background-color: #252038;
+  border-color: #9d8fff;
+  box-shadow: 0 0 0 1px #9d8fff, 0 0 28px 6px rgba(124, 111, 255, 0.3);
 }
 
-.home-card--martina {
-  background-color: #6b1f1f;
-}
-.home-card--martina:hover,
-.home-card--martina:focus {
-  box-shadow:
-    0 0 0 4px rgba(240, 90, 90, 0.15),
-    0 0 60px 18px rgba(240, 90, 90, 0.35),
-    0 16px 48px rgba(0, 0, 0, 0.6);
-}
-
-.home-card--casa {
-  background-color: #1a3558;
-}
-.home-card--casa:hover,
-.home-card--casa:focus {
-  box-shadow:
-    0 0 0 4px rgba(80, 150, 255, 0.15),
-    0 0 60px 18px rgba(80, 150, 255, 0.35),
-    0 16px 48px rgba(0, 0, 0, 0.6);
-}
-
-/* brillo interno en hover */
-.home-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  pointer-events: none;
-  z-index: 0;
-}
-.home-card--lepa::after {
-  background: radial-gradient(ellipse at center, rgba(80, 220, 130, 0.18) 0%, transparent 70%);
-}
-.home-card--martina::after {
-  background: radial-gradient(ellipse at center, rgba(240, 100, 100, 0.18) 0%, transparent 70%);
-}
-.home-card--casa::after {
-  background: radial-gradient(ellipse at center, rgba(80, 150, 255, 0.18) 0%, transparent 70%);
-}
-.home-card:hover::after,
-.home-card:focus::after {
-  opacity: 1;
-}
-
-.home-card__label {
-  position: relative;
-  z-index: 1;
-  color: #fff;
-  font-size: clamp(2.5rem, 5.5vw, 6rem);
-  font-weight: 900;
-  letter-spacing: 0.08em;
+.mes-card__nombre {
+  color: #ccc;
+  font-size: clamp(0.85rem, 2vw, 1.05rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   text-align: center;
-  line-height: 1.1;
-  padding: 1rem;
   user-select: none;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
-  transition: transform 0.35s ease, text-shadow 0.35s ease;
 }
 
-.home-card:hover .home-card__label,
-.home-card:focus .home-card__label {
-  transform: scale(1.1);
-  text-shadow: 0 0 32px rgba(255, 255, 255, 0.4), 0 4px 16px rgba(0, 0, 0, 0.6);
+.mes-card--actual .mes-card__nombre {
+  color: #fff;
+}
+
+/* Tablet */
+@media (max-width: 700px) {
+  .mes-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .mes-page { padding: 32px 20px 28px; gap: 20px; }
 }
 
 /* Mobile */
-@media (max-width: 767px) {
-  .home-grid {
-    flex-direction: column;
-    height: 100svh;
-    gap: 16px;
-    padding: 28px 20px;
+@media (max-width: 440px) {
+  .mes-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
-
-  .home-card {
-    border-radius: 16px;
-    transform: none !important; /* evitar scaleY en mobile */
-  }
-
-  .home-card:hover,
-  .home-card:focus {
-    flex: 1.5;
-    transform: none;
-  }
-
-  .home-card__label {
-    font-size: clamp(2.2rem, 12vw, 4rem);
-  }
+  .mes-page { padding: 28px 16px 24px; gap: 16px; }
+  .mes-card { min-height: 70px; border-radius: 12px; }
+  .mes-card__nombre { font-size: 0.9rem; }
 }
 
 /* ── INNER PAGES ── */
@@ -680,13 +633,10 @@ main {
   .tarea-chip { padding: 13px 15px; }
 }
 
-/* Touch: glow on tap */
+/* Touch: glow en mes actual al tapear */
 @media (hover: none) {
-  .home-card:active::after {
-    opacity: 1;
-  }
-  .home-card:active .home-card__label {
-    transform: scale(1.05);
+  .mes-card--actual:active {
+    box-shadow: 0 0 0 1px #9d8fff, 0 0 28px 8px rgba(124, 111, 255, 0.35);
   }
 }
 
@@ -706,12 +656,6 @@ main {
   /* Tarea chip más alto para touch */
   .tarea-chip {
     padding: 16px 15px;
-    /* desactivar hover transform en touch */
     transform: none !important;
-  }
-
-  /* Home: cards con efecto tap visual */
-  .home-card {
-    -webkit-tap-highlight-color: transparent;
   }
 }
