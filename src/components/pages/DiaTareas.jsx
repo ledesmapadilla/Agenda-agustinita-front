@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import TareaCard from "../shared/TareaCard";
-import ModalTarea from "../shared/ModalTarea";
-import { getEventos, updateEvento, deleteEvento } from "../../helpers/eventosApi";
+import ModalVerTarea from "../shared/ModalVerTarea";
+import { getEventos } from "../../helpers/eventosApi";
 
 const MESES_MAP = {
   enero: 0, febrero: 1, marzo: 2, abril: 3, mayo: 4, junio: 5,
@@ -14,7 +14,7 @@ export default function DiaTareas() {
   const nombre = mes.charAt(0).toUpperCase() + mes.slice(1);
   const [tareas, setTareas] = useState([]);
   const [cargando, setCargando] = useState(true);
-  const [tareaEditar, setTareaEditar] = useState(null);
+  const [tareaVer, setTareaVer] = useState(null);
 
   useEffect(() => {
     getEventos(`${mes}-${anio}`)
@@ -25,15 +25,11 @@ export default function DiaTareas() {
       .finally(() => setCargando(false));
   }, [mes, anio, dia]);
 
-  const handleGuardar = async (data) => {
-    const actualizada = await updateEvento(data._id, data);
-    setTareas((prev) => prev.map((t) => (t._id === actualizada._id ? actualizada : t)));
-  };
-
-  const handleBorrar = async (id) => {
-    await deleteEvento(id);
-    setTareas((prev) => prev.filter((t) => t._id !== id));
-  };
+  // ModalVerTarea espera fecha en formato "YYYY-MM-DD"
+  const normalizar = (t) => ({
+    ...t,
+    fecha: t.fecha ? t.fecha.slice(0, 10) : "",
+  });
 
   return (
     <div className="inner-page inner-page--lepa">
@@ -58,7 +54,7 @@ export default function DiaTareas() {
                 <TareaCard
                   key={t._id}
                   tarea={t}
-                  onClick={(t) => setTareaEditar(t)}
+                  onClick={(t) => setTareaVer(normalizar(t))}
                 />
               ))}
             </ul>
@@ -67,15 +63,9 @@ export default function DiaTareas() {
 
       </div>
 
-      <ModalTarea
-        show={!!tareaEditar}
-        onClose={() => setTareaEditar(null)}
-        onGuardar={handleGuardar}
-        onBorrar={handleBorrar}
-        onToggleEstado={handleBorrar}
-        seccion={`${mes}-${anio}`}
-        accentClass="btn-accent-lepa"
-        tareaInicial={tareaEditar}
+      <ModalVerTarea
+        tarea={tareaVer}
+        onClose={() => setTareaVer(null)}
       />
     </div>
   );
