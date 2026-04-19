@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Inicio from "./components/pages/inicio";
 import Mes from "./components/pages/Mes";
+import NuevaTarea from "./components/pages/NuevaTarea";
 import Error404 from "./components/pages/Error404";
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Inicio />} />
         <Route path="/mes/:mes/:anio" element={<Mes />} />
+        <Route path="/mes/:mes/:anio/:dia" element={<NuevaTarea />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
     </BrowserRouter>

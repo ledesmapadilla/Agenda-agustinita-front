@@ -1,37 +1,23 @@
-import { useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { createEvento } from "../../helpers/eventosApi";
+import { Link, useParams } from "react-router-dom";
 
-const hoy = () => new Date().toISOString().split("T")[0];
+const MESES_MAP = {
+  enero: 0, febrero: 1, marzo: 2, abril: 3, mayo: 4, junio: 5,
+  julio: 6, agosto: 7, septiembre: 8, octubre: 9, noviembre: 10, diciembre: 11,
+};
+
+const DIAS_SEMANA = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 
 export default function Mes() {
   const { mes, anio } = useParams();
-  const navigate = useNavigate();
   const nombre = mes.charAt(0).toUpperCase() + mes.slice(1);
-  const [guardando, setGuardando] = useState(false);
-  const [error, setError] = useState(null);
+  const mesIdx = MESES_MAP[mes] ?? 0;
+  const totalDias = new Date(Number(anio), mesIdx + 1, 0).getDate();
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({ defaultValues: { fecha: hoy(), urgencia: "baja", descripcion: "" } });
-
-  const onSubmit = async (data) => {
-    setGuardando(true);
-    setError(null);
-    try {
-      await createEvento(`${mes}-${anio}`, data);
-      reset({ fecha: hoy(), urgencia: "baja", descripcion: "" });
-      navigate("/");
-    } catch {
-      setError("No se pudo guardar. Intentá de nuevo.");
-    } finally {
-      setGuardando(false);
-    }
-  };
+  const dias = Array.from({ length: totalDias }, (_, i) => {
+    const num = i + 1;
+    const dow = new Date(Number(anio), mesIdx, num).getDay();
+    return { num, dow };
+  });
 
   return (
     <div className="inner-page inner-page--lepa">
@@ -45,48 +31,21 @@ export default function Mes() {
           <div style={{ width: 44 }} />
         </header>
 
-        <form className="floating-card__body mes-form" onSubmit={handleSubmit(onSubmit)} noValidate>
-
-          <div className="field-group" style={{ maxWidth: "50%" }}>
-            <label className="field-label" htmlFor="fecha">Fecha</label>
-            <input
-              id="fecha"
-              type="date"
-              className="field-input"
-              {...register("fecha")}
-            />
+        <div className="floating-card__body">
+          <div className="dias-grid">
+            {dias.map(({ num, dow }) => (
+              <Link
+                key={num}
+                to={`/mes/${mes}/${anio}/${num}`}
+                className="dia-card"
+              >
+                <span className="dia-card__num">{num}</span>
+                <span className="dia-card__dow">{DIAS_SEMANA[dow]}</span>
+              </Link>
+            ))}
           </div>
+        </div>
 
-          <div className="field-group">
-            <label className="field-label" htmlFor="descripcion">Tarea</label>
-            <textarea
-              id="descripcion"
-              rows={4}
-              className={`field-input field-input--textarea${errors.descripcion ? " field-input--error" : ""}`}
-              placeholder="Describí la tarea..."
-              {...register("descripcion", { required: "Requerido" })}
-            />
-            {errors.descripcion && <span className="field-error">{errors.descripcion.message}</span>}
-          </div>
-
-          <div className="field-inline">
-            <label className="field-label field-label--inline" htmlFor="urgencia">Urgencia</label>
-            <select id="urgencia" className="field-input field-input--select field-input--inline" {...register("urgencia")}>
-              <option value="alta">Alta</option>
-              <option value="baja">Baja</option>
-            </select>
-          </div>
-
-          {error && <p className="mes-form__error">{error}</p>}
-
-          <div className="mes-form__actions">
-            <Link to="/" className="btn-cancel">Cancelar</Link>
-            <button type="submit" className="btn-submit btn-submit--lepa" disabled={guardando}>
-              {guardando ? "Guardando..." : "Guardar tarea"}
-            </button>
-          </div>
-
-        </form>
       </div>
     </div>
   );
