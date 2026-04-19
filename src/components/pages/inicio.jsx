@@ -37,7 +37,7 @@ export default function Inicio() {
     <div className="mes-page">
       <div className="mes-año-nav" ref={dropRef}>
         <button className="mes-año" onClick={() => setAbierto(o => !o)}>
-          {año} <i className={`bi bi-chevron-${abierto ? "up" : "down"} mes-año-chevron`} />
+          {año}
         </button>
 
         {abierto && (
