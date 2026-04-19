@@ -3,18 +3,18 @@ import { createPortal } from "react-dom";
 
 const style = {
   position: "fixed",
-  bottom: "40px",
+  top: "50%",
   left: "50%",
-  transform: "translateX(-50%)",
-  background: "#1b3a2d",
+  transform: "translate(-50%, -50%)",
+  background: "#4a90d9",
   color: "#fff",
-  padding: "14px 28px",
+  padding: "18px 36px",
   borderRadius: "24px",
-  fontSize: "1rem",
+  fontSize: "1.1rem",
   fontWeight: "700",
   whiteSpace: "nowrap",
   zIndex: 99999,
-  boxShadow: "0 4px 20px rgba(0,0,0,0.35)",
+  boxShadow: "0 8px 32px rgba(0,0,0,0.35)",
 };
 
 export default function Toast({ mensaje, onOcultar }) {
