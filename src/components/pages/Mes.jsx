@@ -1,4 +1,6 @@
+import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import { getEventos } from "../../helpers/eventosApi";
 
 const MESES_MAP = {
   enero: 0, febrero: 1, marzo: 2, abril: 3, mayo: 4, junio: 5,
@@ -12,6 +14,19 @@ export default function Mes() {
   const nombre = mes.charAt(0).toUpperCase() + mes.slice(1);
   const mesIdx = MESES_MAP[mes] ?? 0;
   const totalDias = new Date(Number(anio), mesIdx + 1, 0).getDate();
+  const [tareasPorDia, setTareasPorDia] = useState({});
+
+  useEffect(() => {
+    getEventos(`${mes}-${anio}`).then((tareas) => {
+      const mapa = {};
+      tareas.forEach((t) => {
+        const dia = new Date(t.fecha).getUTCDate();
+        if (!mapa[dia]) mapa[dia] = [];
+        mapa[dia].push(t.urgencia);
+      });
+      setTareasPorDia(mapa);
+    });
+  }, [mes, anio]);
 
   const dias = Array.from({ length: totalDias }, (_, i) => {
     const num = i + 1;
@@ -41,6 +56,16 @@ export default function Mes() {
               >
                 <span className="dia-card__num">{num}</span>
                 <span className="dia-card__dow">{DIAS_SEMANA[dow]}</span>
+                {tareasPorDia[num] && (
+                  <div className="dia-card__puntos">
+                    {tareasPorDia[num].map((urg, i) => (
+                      <span
+                        key={i}
+                        className={`dia-card__punto dia-card__punto--${urg}`}
+                      />
+                    ))}
+                  </div>
+                )}
               </Link>
             ))}
           </div>

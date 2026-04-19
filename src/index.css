@@ -387,6 +387,23 @@ main {
   letter-spacing: 0.05em;
 }
 
+.dia-card__puntos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3px;
+  margin-top: 4px;
+}
+
+.dia-card__punto {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dia-card__punto--baja { background-color: #222; }
+.dia-card__punto--alta { background-color: #d32f2f; }
+
 /* ── FORM NUEVA TAREA ── */
 .mes-form {
   display: flex;
