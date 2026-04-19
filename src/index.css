@@ -324,14 +324,14 @@ main {
 .btn-nueva-tarea {
   width: 44px;
   height: 44px;
-  border: 2px solid rgba(255,255,255,0.7);
+  border: none;
   border-radius: 8px;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   line-height: 1;
-  font-weight: 300;
+  font-weight: 700;
   cursor: pointer;
-  background-color: rgba(255,255,255,0.15);
-  color: #fff;
+  background-color: #f0c040;
+  color: #1a1a2e;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -339,7 +339,7 @@ main {
   touch-action: manipulation;
   transition: background 0.2s, border-color 0.2s, transform 0.15s;
 }
-.btn-nueva-tarea:hover  { background-color: rgba(255,255,255,0.28); border-color: #fff; transform: translateY(-1px); }
+.btn-nueva-tarea:hover  { background-color: #e6b030; transform: translateY(-1px); }
 .btn-nueva-tarea:active { transform: translateY(0); }
 
 /* body */
