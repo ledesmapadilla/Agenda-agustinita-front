@@ -58,7 +58,7 @@ export default function Mes() {
                 <span className="dia-card__dow">{DIAS_SEMANA[dow]}</span>
                 {tareasPorDia[num] && (
                   <div className="dia-card__puntos">
-                    {tareasPorDia[num].map((urg, i) => (
+                    {tareasPorDia[num].slice(0, 6).map((urg, i) => (
                       <span
                         key={i}
                         className={`dia-card__punto dia-card__punto--${urg}`}
