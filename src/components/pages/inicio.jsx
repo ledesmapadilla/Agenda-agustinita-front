@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const MESES = [
@@ -10,20 +10,50 @@ const MESES = [
 const hoy       = new Date();
 const mesActual = hoy.getMonth();
 const añoActual = hoy.getFullYear();
+const AÑOS      = Array.from({ length: 11 }, (_, i) => 2020 + i); // 2020–2030
 
 export default function Inicio() {
-  const [año, setAño] = useState(2026);
+  const [año, setAño]         = useState(2026);
+  const [abierto, setAbierto] = useState(false);
+  const dropRef               = useRef(null);
+
+  // cerrar al tocar fuera
+  useEffect(() => {
+    if (!abierto) return;
+    const handler = (e) => {
+      if (dropRef.current && !dropRef.current.contains(e.target)) setAbierto(false);
+    };
+    document.addEventListener("mousedown", handler);
+    document.addEventListener("touchstart", handler);
+    return () => {
+      document.removeEventListener("mousedown", handler);
+      document.removeEventListener("touchstart", handler);
+    };
+  }, [abierto]);
+
+  const elegir = (a) => { setAño(a); setAbierto(false); };
 
   return (
     <div className="mes-page">
-      <div className="mes-año-nav">
-        <button className="mes-año-btn" onClick={() => setAño(a => a - 1)}>
-          <i className="bi bi-chevron-left" />
+      <div className="mes-año-nav" ref={dropRef}>
+        <button className="mes-año" onClick={() => setAbierto(o => !o)}>
+          {año} <i className={`bi bi-chevron-${abierto ? "up" : "down"} mes-año-chevron`} />
         </button>
-        <h1 className="mes-año">{año}</h1>
-        <button className="mes-año-btn" onClick={() => setAño(a => a + 1)}>
-          <i className="bi bi-chevron-right" />
-        </button>
+
+        {abierto && (
+          <ul className="mes-año-lista">
+            {AÑOS.map(a => (
+              <li key={a}>
+                <button
+                  className={`mes-año-opcion${a === año ? " mes-año-opcion--activa" : ""}`}
+                  onClick={() => elegir(a)}
+                >
+                  {a}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       <div className="mes-grid">
