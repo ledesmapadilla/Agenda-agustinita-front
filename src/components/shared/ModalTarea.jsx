@@ -27,8 +27,8 @@ export default function ModalTarea({ show, onClose, onGuardar, onBorrar, onToggl
     return () => { document.body.style.overflow = ""; };
   }, [show, reset, esEdicion, tareaInicial]);
 
-  const onSubmit = (data) => {
-    onGuardar({ ...data, _id: tareaInicial?._id, seccion });
+  const onSubmit = async (data) => {
+    await onGuardar({ ...data, _id: tareaInicial?._id, seccion });
     onClose();
   };
 

@@ -1,4 +1,4 @@
-const BASE = import.meta.env.VITE_API_URL || "https://agenda-back-ten.vercel.app/api";
+const BASE = import.meta.env.VITE_API_URL || "https://agenda-agustinita-back.vercel.app/api";
 
 export const getEventos = (seccion) =>
   fetch(`${BASE}/eventos/${seccion}`).then((r) => r.json());
