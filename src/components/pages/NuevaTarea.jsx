@@ -10,9 +10,10 @@ const MESES_MAP = {
 };
 
 export default function NuevaTarea() {
-  const { mes, anio, dia } = useParams();
+  const { mes, anio, categoria, dia } = useParams();
   const navigate = useNavigate();
   const nombre = mes.charAt(0).toUpperCase() + mes.slice(1);
+  const seccion = `${mes}-${anio}-${categoria}`;
 
   const mesIdx = MESES_MAP[mes] ?? 0;
   const fechaISO = `${anio}-${String(mesIdx + 1).padStart(2, "0")}-${String(dia).padStart(2, "0")}`;
@@ -21,19 +22,17 @@ export default function NuevaTarea() {
   const [error, setError] = useState(null);
   const [toast, setToast] = useState(null);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({ defaultValues: { fecha: fechaISO, urgencia: "baja", descripcion: "" } });
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: { urgencia: "baja", descripcion: "" },
+  });
 
   const onSubmit = async (data) => {
     setGuardando(true);
     setError(null);
     try {
-      await createEvento(`${mes}-${anio}`, { ...data, fecha: fechaISO });
+      await createEvento(seccion, { ...data, fecha: fechaISO });
       setToast("Tarea creada");
-      setTimeout(() => navigate(`/mes/${mes}/${anio}/${dia}`), 1400);
+      setTimeout(() => navigate(`/mes/${mes}/${anio}/${categoria}/${dia}`), 1400);
     } catch (err) {
       setError(err?.message || String(err));
     } finally {
@@ -46,7 +45,7 @@ export default function NuevaTarea() {
       <div className="floating-card">
 
         <header className="floating-card__header floating-card__header--lepa">
-          <Link to={`/mes/${mes}/${anio}/${dia}`} className="floating-card__back">
+          <Link to={`/mes/${mes}/${anio}/${categoria}/${dia}`} className="floating-card__back">
             <i className="bi bi-arrow-left" />
           </Link>
           <h1 className="floating-card__title">{dia} de {nombre}</h1>
@@ -78,7 +77,7 @@ export default function NuevaTarea() {
           {error && <p className="mes-form__error">{error}</p>}
 
           <div className="mes-form__actions">
-            <Link to={`/mes/${mes}/${anio}/${dia}`} className="btn-cancel">Cancelar</Link>
+            <Link to={`/mes/${mes}/${anio}/${categoria}/${dia}`} className="btn-cancel">Cancelar</Link>
             <button type="submit" className="btn-submit btn-submit--lepa" disabled={guardando}>
               {guardando ? "Guardando..." : "Guardar tarea"}
             </button>

@@ -350,6 +350,36 @@ main {
   overflow-y: auto;
 }
 
+/* ── CATEGORÍAS ── */
+.cat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  padding-top: 32px;
+}
+
+.cat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 36px 20px;
+  background: #d8d8d8;
+  border-radius: 18px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+  text-decoration: none;
+  color: rgba(0,0,0,0.75);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, transform 0.1s;
+}
+.cat-card:active { transform: scale(0.97); background: #c8c8c8; }
+
+.cat-card__emoji { font-size: 2.8rem; line-height: 1; }
+.cat-card__label { font-size: 1.5rem; font-weight: 800; letter-spacing: 0.04em; }
+
 /* ── DÍAS DEL MES ── */
 .dias-grid {
   display: grid;

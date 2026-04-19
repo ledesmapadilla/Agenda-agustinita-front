@@ -10,14 +10,15 @@ const MESES_MAP = {
 const DIAS_SEMANA = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 
 export default function Mes() {
-  const { mes, anio } = useParams();
+  const { mes, anio, categoria } = useParams();
   const nombre = mes.charAt(0).toUpperCase() + mes.slice(1);
+  const catLabel = categoria.charAt(0).toUpperCase() + categoria.slice(1);
   const mesIdx = MESES_MAP[mes] ?? 0;
   const totalDias = new Date(Number(anio), mesIdx + 1, 0).getDate();
   const [tareasPorDia, setTareasPorDia] = useState({});
 
   useEffect(() => {
-    getEventos(`${mes}-${anio}`).then((tareas) => {
+    getEventos(`${mes}-${anio}-${categoria}`).then((tareas) => {
       const mapa = {};
       tareas.forEach((t) => {
         const dia = new Date(t.fecha).getUTCDate();
@@ -26,7 +27,7 @@ export default function Mes() {
       });
       setTareasPorDia(mapa);
     });
-  }, [mes, anio]);
+  }, [mes, anio, categoria]);
 
   const dias = Array.from({ length: totalDias }, (_, i) => {
     const num = i + 1;
@@ -39,10 +40,10 @@ export default function Mes() {
       <div className="floating-card">
 
         <header className="floating-card__header floating-card__header--lepa">
-          <Link to="/" className="floating-card__back">
+          <Link to={`/mes/${mes}/${anio}`} className="floating-card__back">
             <i className="bi bi-arrow-left" />
           </Link>
-          <h1 className="floating-card__title">{nombre} {anio}</h1>
+          <h1 className="floating-card__title">{nombre} · {catLabel}</h1>
           <div style={{ width: 44 }} />
         </header>
 
@@ -51,7 +52,7 @@ export default function Mes() {
             {dias.map(({ num, dow }) => (
               <Link
                 key={num}
-                to={`/mes/${mes}/${anio}/${num}`}
+                to={`/mes/${mes}/${anio}/${categoria}/${num}`}
                 className="dia-card"
               >
                 <span className="dia-card__num">{num}</span>
@@ -59,10 +60,7 @@ export default function Mes() {
                 {tareasPorDia[num] && (
                   <div className="dia-card__puntos">
                     {tareasPorDia[num].slice(0, 6).map((urg, i) => (
-                      <span
-                        key={i}
-                        className={`dia-card__punto dia-card__punto--${urg}`}
-                      />
+                      <span key={i} className={`dia-card__punto dia-card__punto--${urg}`} />
                     ))}
                   </div>
                 )}

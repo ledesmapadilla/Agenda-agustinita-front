@@ -6,21 +6,22 @@ import Toast from "../shared/Toast";
 import { getEventos, updateEvento, deleteEvento } from "../../helpers/eventosApi";
 
 export default function DiaTareas() {
-  const { mes, anio, dia } = useParams();
+  const { mes, anio, categoria, dia } = useParams();
   const nombre = mes.charAt(0).toUpperCase() + mes.slice(1);
+  const seccion = `${mes}-${anio}-${categoria}`;
   const [tareas, setTareas] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [tareaEditar, setTareaEditar] = useState(null);
   const [toast, setToast] = useState(null);
 
   useEffect(() => {
-    getEventos(`${mes}-${anio}`)
+    getEventos(seccion)
       .then((todas) => {
         const diaNum = Number(dia);
         setTareas(todas.filter((t) => new Date(t.fecha).getUTCDate() === diaNum));
       })
       .finally(() => setCargando(false));
-  }, [mes, anio, dia]);
+  }, [seccion, dia]);
 
   const handleGuardar = async (data) => {
     const actualizada = await updateEvento(data._id, data);
@@ -45,11 +46,11 @@ export default function DiaTareas() {
       <div className="floating-card">
 
         <header className="floating-card__header floating-card__header--lepa">
-          <Link to={`/mes/${mes}/${anio}`} className="floating-card__back">
+          <Link to={`/mes/${mes}/${anio}/${categoria}`} className="floating-card__back">
             <i className="bi bi-arrow-left" />
           </Link>
           <h1 className="floating-card__title">{dia} de {nombre}</h1>
-          <Link to={`/mes/${mes}/${anio}/${dia}/nueva`} className="btn-nueva-tarea">+</Link>
+          <Link to={`/mes/${mes}/${anio}/${categoria}/${dia}/nueva`} className="btn-nueva-tarea">+</Link>
         </header>
 
         <div className="floating-card__body">
@@ -60,11 +61,7 @@ export default function DiaTareas() {
           ) : (
             <ul className="tareas-lista">
               {tareas.map((t) => (
-                <TareaCard
-                  key={t._id}
-                  tarea={t}
-                  onClick={(t) => setTareaEditar(t)}
-                />
+                <TareaCard key={t._id} tarea={t} onClick={(t) => setTareaEditar(t)} />
               ))}
             </ul>
           )}
@@ -78,7 +75,7 @@ export default function DiaTareas() {
         onGuardar={handleGuardar}
         onBorrar={handleBorrar}
         onToggleEstado={handleTerminada}
-        seccion={`${mes}-${anio}`}
+        seccion={seccion}
         accentClass="btn-accent-lepa"
         tareaInicial={tareaEditar}
       />
