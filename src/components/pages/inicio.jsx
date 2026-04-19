@@ -12,7 +12,7 @@ const mesActual = hoy.getMonth();
 const añoActual = hoy.getFullYear();
 
 export default function Inicio() {
-  const [año, setAño] = useState(añoActual);
+  const [año, setAño] = useState(2026);
 
   return (
     <div className="mes-page">
