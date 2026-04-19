@@ -29,7 +29,7 @@ export default function NuevaTarea() {
     setGuardando(true);
     setError(null);
     try {
-      await createEvento(`${mes}-${anio}`, data);
+      await createEvento(`${mes}-${anio}`, { ...data, fecha: fechaISO });
       navigate(`/mes/${mes}/${anio}`);
     } catch {
       setError("No se pudo guardar. Intentá de nuevo.");
