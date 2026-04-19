@@ -330,8 +330,9 @@ main {
   line-height: 1;
   font-weight: 700;
   cursor: pointer;
-  background-color: #f0c040;
-  color: #1a1a2e;
+  background-color: #e8f5e9;
+  color: #1b3a2d;
+  text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -339,7 +340,7 @@ main {
   touch-action: manipulation;
   transition: background 0.2s, border-color 0.2s, transform 0.15s;
 }
-.btn-nueva-tarea:hover  { background-color: #e6b030; transform: translateY(-1px); }
+.btn-nueva-tarea:hover  { background-color: #c8e6c9; transform: translateY(-1px); }
 .btn-nueva-tarea:active { transform: translateY(0); }
 
 /* body */
