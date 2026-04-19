@@ -31,6 +31,27 @@ main {
   gap: 28px;
 }
 
+.mes-año-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.mes-año-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 1.8rem;
+  padding: 8px;
+  line-height: 1;
+  touch-action: manipulation;
+  transition: color 0.2s, transform 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.mes-año-btn:hover  { color: rgba(0, 0, 0, 0.75); transform: scale(1.15); }
+.mes-año-btn:active { transform: scale(0.95); }
+
 .mes-año {
   color: rgba(0, 0, 0, 0.75);
   font-size: clamp(4rem, 12vw, 9rem);
