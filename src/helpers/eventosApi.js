@@ -3,12 +3,16 @@ const BASE = import.meta.env.VITE_API_URL || "https://agenda-agustinita-back.ver
 export const getEventos = (seccion) =>
   fetch(`${BASE}/eventos/${seccion}`).then((r) => r.json());
 
-export const createEvento = (seccion, data) =>
-  fetch(`${BASE}/eventos/${seccion}`, {
+export const createEvento = async (seccion, data) => {
+  const r = await fetch(`${BASE}/eventos/${seccion}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
-  }).then((r) => r.json());
+  });
+  const json = await r.json();
+  if (!r.ok) throw new Error(json?.message || `Error ${r.status}`);
+  return json;
+};
 
 export const updateEvento = (id, data) =>
   fetch(`${BASE}/eventos/${id}`, {

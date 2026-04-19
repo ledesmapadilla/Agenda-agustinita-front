@@ -31,8 +31,8 @@ export default function NuevaTarea() {
     try {
       await createEvento(`${mes}-${anio}`, { ...data, fecha: fechaISO });
       navigate(`/mes/${mes}/${anio}`);
-    } catch {
-      setError("No se pudo guardar. Intentá de nuevo.");
+    } catch (err) {
+      setError(err?.message || String(err));
     } finally {
       setGuardando(false);
     }
