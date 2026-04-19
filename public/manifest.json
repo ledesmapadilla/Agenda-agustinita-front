@@ -1,7 +1,7 @@
 {
-  "name": "Agenda LEPA",
-  "short_name": "Agenda",
-  "description": "Agenda de tareas LEPA",
+  "name": "Agenda Agustinita",
+  "short_name": "Agustinita",
+  "description": "Agenda de tareas Agustinita",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
