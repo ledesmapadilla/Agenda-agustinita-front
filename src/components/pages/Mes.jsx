@@ -9,12 +9,18 @@ const MESES_MAP = {
 
 const DIAS_SEMANA = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 
+const hoy       = new Date();
+const diaHoy    = hoy.getDate();
+const mesHoy    = hoy.getMonth();
+const añoHoy    = hoy.getFullYear();
+
 export default function Mes() {
   const { mes, anio, categoria } = useParams();
   const nombre = mes.charAt(0).toUpperCase() + mes.slice(1);
   const catLabel = categoria.charAt(0).toUpperCase() + categoria.slice(1);
   const mesIdx = MESES_MAP[mes] ?? 0;
   const totalDias = new Date(Number(anio), mesIdx + 1, 0).getDate();
+  const esMesActual = mesIdx === mesHoy && Number(anio) === añoHoy;
   const [tareasPorDia, setTareasPorDia] = useState({});
 
   useEffect(() => {
@@ -53,7 +59,7 @@ export default function Mes() {
               <Link
                 key={num}
                 to={`/mes/${mes}/${anio}/${categoria}/${num}`}
-                className="dia-card"
+                className={`dia-card${esMesActual && num === diaHoy ? " dia-card--actual" : ""}`}
               >
                 <span className="dia-card__num">{num}</span>
                 <span className="dia-card__dow">{DIAS_SEMANA[dow]}</span>

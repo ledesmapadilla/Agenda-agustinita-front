@@ -449,6 +449,19 @@ main {
 .dia-card__punto--baja { background-color: #222; }
 .dia-card__punto--alta { background-color: #d32f2f; }
 
+/* Día actual — destacado */
+.dia-card--actual {
+  background-color: #eeebff;
+  box-shadow: 0 4px 16px rgba(124, 111, 255, 0.25), 0 1px 4px rgba(124, 111, 255, 0.15);
+  color: #5b4fd4;
+}
+.dia-card--actual:active {
+  background-color: #ddd8ff;
+}
+.dia-card--actual .dia-card__num {
+  color: #5b4fd4;
+}
+
 /* ── FORM NUEVA TAREA ── */
 .mes-form {
   display: flex;
